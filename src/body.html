@@ -1,0 +1,137 @@
+<div class="app">
+  <header class="top">
+    <div class="brand"><img id="logo" alt=""><div><b>Cappy<span>Slicer</span></b><small data-i18n="brand.sub"></small></div></div>
+    <div class="modes" role="group" data-i18n-aria="mode.aria">
+      <button id="mPrep" aria-pressed="true" data-i18n="mode.prep"></button>
+      <button id="mPrev" aria-pressed="false" data-i18n="mode.prev"></button>
+    </div>
+    <div class="spacer"></div>
+    <div class="modes lang" role="group" data-i18n-aria="lang.aria">
+      <button id="langPl" aria-pressed="false" lang="pl">PL</button>
+      <button id="langEn" aria-pressed="false" lang="en">EN</button>
+    </div>
+    <button class="btn ghost" id="btnTheme" data-i18n-title="theme.title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    <button class="btn" id="btnExport" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg><span class="lbl-long" data-i18n="btn.export"></span>G-code</button>
+    <button class="btn primary" id="btnSlice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span data-i18n="btn.slice"></span></button>
+  </header>
+
+  <div class="main">
+    <aside class="side" id="side">
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="sec.printer"></h2><span class="meta" id="prCount"></span></div>
+        <select id="selPrinter" data-i18n-aria="sec.printer"></select>
+        <div class="meta" id="prMeta"></div>
+        <div class="grid2" id="customDims" hidden>
+          <div class="fld"><label for="cW" data-i18n="pr.w"></label><div class="unit" data-u="mm"><input type="number" id="cW" min="50" max="1000"></div></div>
+          <div class="fld"><label for="cD" data-i18n="pr.d"></label><div class="unit" data-u="mm"><input type="number" id="cD" min="50" max="1000"></div></div>
+          <div class="fld"><label for="cH" data-i18n="pr.h"></label><div class="unit" data-u="mm"><input type="number" id="cH" min="50" max="1000"></div></div>
+        </div>
+        <div class="grid2">
+          <div class="fld"><label for="selNozzle" data-i18n="pr.nozzle"></label>
+            <select id="selNozzle"><option value="0.2">0,2 mm</option><option value="0.4" selected>0,4 mm</option><option value="0.6">0,6 mm</option><option value="0.8">0,8 mm</option></select></div>
+          <div class="fld"><label for="selHard" data-i18n="pr.ntype"></label>
+            <select id="selHard"><option value="0" data-i18n="pr.brass"></option><option value="1" data-i18n="pr.hard"></option></select></div>
+        </div>
+        <div class="chips" id="prChips"></div>
+      </section>
+
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="sec.filament"></h2><span class="meta" id="filCount"></span></div>
+        <button class="filbtn" id="btnFil"><span class="swatch" id="filSwatch"></span><span class="grow"><span class="nm" id="filName"></span><span class="sub" id="filSub"></span></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="grid2">
+          <div class="fld"><label for="fNoz"><span data-i18n="fil.noz"></span> <span id="fNozRange" class="meta"></span></label><div class="unit" data-u="°C"><input type="number" id="fNoz"></div></div>
+          <div class="fld"><label for="fBed" data-i18n="fil.bed"></label><div class="unit" data-u="°C"><input type="number" id="fBed"></div></div>
+          <div class="fld"><label for="fFan" data-i18n="fil.fan"></label><div class="unit" data-u="%"><input type="number" id="fFan" min="0" max="100"></div></div>
+          <div class="fld"><label for="fPrice" data-i18n="fil.price"></label><div class="unit" data-i18n-u="cur.kg"><input type="number" id="fPrice" min="0"></div></div>
+        </div>
+        <div class="fld"><span class="lbl" data-i18n="fil.color"></span><div class="colors" id="colors"></div></div>
+        <div class="chips" id="filChips"></div>
+        <div class="meta" id="filNote"></div>
+        <div class="alerts" id="alerts"></div>
+      </section>
+
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="sec.process"></h2><button class="btn ghost small" id="btnReset" data-i18n="proc.reset"></button></div>
+        <div class="qual" id="qual"></div>
+        <div class="row">
+          <input type="search" id="setSearch" data-i18n-ph="proc.search" data-i18n-aria="proc.search">
+          <label class="toggle advtoggle" for="advMode"><span data-i18n="proc.adv"></span><input type="checkbox" id="advMode"></label>
+        </div>
+        <div class="tabs" role="tablist" id="tabs"></div>
+        <div class="set" id="settings"></div>
+      </section>
+      <div class="foot"><span data-i18n="foot.tech"></span> · <span id="ver"></span></div>
+    </aside>
+
+    <div class="view" id="view">
+      <canvas id="c3d"></canvas>
+      <div class="ov toolbar" id="toolbar">
+        <div class="card tb" style="position:relative">
+          <button id="btnAdd" data-i18n-title="tb.add.t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="tb.add"></span></button>
+          <button id="btnSamples" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5v10l-9 5-9-5V7z M12 22V12 M21 7l-9 5-9-5"/></svg><span data-i18n="tb.samples"></span></button>
+          <div class="card menu" id="menuSamples" hidden></div>
+          <input type="file" id="fileIn" accept=".stl,.obj" multiple hidden>
+        </div>
+        <div class="card tb" id="tbPrep">
+          <button id="btnArrange" data-i18n-title="tb.arrange.t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span data-i18n="tb.arrange"></span></button>
+        </div>
+        <div class="card tb">
+          <button data-view="iso" data-i18n="tb.iso" data-i18n-title="tb.iso.t"></button>
+          <button data-view="top" data-i18n="tb.top" data-i18n-title="tb.top.t"></button>
+          <button data-view="front" data-i18n="tb.front" data-i18n-title="tb.front.t"></button>
+        </div>
+      </div>
+
+      <div class="ov card objpanel" id="objPanel">
+        <div class="objlist" id="objList"></div>
+        <div id="xfBox">
+          <div class="xf">
+            <span></span><span class="ax">X</span><span class="ax">Y</span><span class="ax">Z</span>
+            <span data-i18n="xf.pos"></span><input type="number" id="pX" step="1"><input type="number" id="pY" step="1"><input type="number" id="pZ" disabled data-i18n-title="xf.z.t">
+            <span data-i18n="xf.rot"></span><input type="number" id="rX" step="15"><input type="number" id="rY" step="15"><input type="number" id="rZ" step="15">
+            <span data-i18n="xf.scale"></span><input type="number" id="sX" step="5"><input type="number" id="sY" step="5"><input type="number" id="sZ" step="5">
+            <span data-i18n="xf.mm"></span><output id="dX" class="meta"></output><output id="dY" class="meta"></output><output id="dZ" class="meta"></output>
+          </div>
+          <label class="toggle" style="margin-top:6px"><span data-i18n="xf.uniform"></span><input type="checkbox" id="uniform" checked></label>
+        </div>
+        <div class="objactions">
+          <button class="btn" id="btnDup" data-i18n="obj.dup"></button>
+          <button class="btn" id="btnCenter" data-i18n="obj.center"></button>
+          <button class="btn" id="btnFlat" data-i18n="obj.flat" data-i18n-title="obj.flat.t"></button>
+          <button class="btn" id="btnDel" data-i18n="obj.del"></button>
+        </div>
+      </div>
+      <div class="empty-hint" id="emptyHint" hidden><div><b style="font:600 18px var(--f-display)" data-i18n="empty.t"></b><br><span data-i18n="empty.d"></span></div></div>
+
+      <div class="ov card stats" id="stats" hidden>
+        <h3 data-i18n="st.title"></h3>
+        <div class="big" id="stTime">–</div>
+        <dl class="kv" id="stKv"></dl>
+        <button class="btn" id="btnGview" data-i18n="st.show"></button>
+      </div>
+      <div class="ov card legend" id="legend" hidden></div>
+      <div class="ov card layerbar" id="layerbar" hidden>
+        <button id="lUp" data-i18n-aria="layer.up">▲</button>
+        <input type="range" id="layer" min="0" max="0" value="0" data-i18n-aria="layer.aria">
+        <button id="lDn" data-i18n-aria="layer.dn">▼</button>
+        <output id="lOut">0</output>
+      </div>
+      <div class="ov card drawer" id="drawer" hidden>
+        <header><b>G-code</b><span class="meta" id="gInfo"></span><span class="spacer"></span><button class="btn" id="btnCopy" data-i18n="g.copy"></button><button class="btn ghost" id="btnCloseG" data-i18n="g.close"></button></header>
+        <pre id="gText"></pre>
+      </div>
+      <div class="prog" id="prog" hidden><div class="card"><b data-i18n="prog.title"></b><div class="track"><span id="progBar"></span></div><span class="meta" id="progS"></span></div></div>
+      <div class="drop" id="drop" hidden data-i18n="drop"></div>
+    </div>
+  </div>
+  <footer class="footbar"><span>© 2026 CappySoft.pl</span><span class="meta">CappySlicer 1.1</span></footer>
+</div>
+
+<div class="picker" id="picker" hidden>
+  <div class="picker-box" role="dialog" data-i18n-aria="pick.title">
+    <div class="picker-head"><h3 data-i18n="pick.title"></h3><input type="search" id="fSearch" data-i18n-ph="pick.search"><button class="btn ghost" id="pClose" data-i18n="pick.close"></button></div>
+    <div class="picker-tabs" id="pTabs"></div>
+    <div class="picker-list" id="pList"></div>
+    <div class="picker-foot"><span id="pCount"></span><span data-i18n="pick.flag"></span></div>
+  </div>
+</div>

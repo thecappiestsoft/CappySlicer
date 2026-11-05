@@ -1,0 +1,81 @@
+{
+  "name": "cappyslicer",
+  "productName": "CappySlicer",
+  "version": "1.1.0",
+  "description": "CappySlicer – slicer do druku 3D FDM / FDM 3D printing slicer",
+  "main": "electron/main.js",
+  "author": "CappySoft",
+  "homepage": "https://cappysoft.pl",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.js && node build.js --cdn",
+    "html": "node build.js",
+    "start": "node build.js && electron .",
+    "test": "node tests/engine.test.js"
+  },
+  "build": {
+    "appId": "pl.infotech.cappyslicer",
+    "productName": "CappySlicer",
+    "files": [
+      "electron/**",
+      "app/**",
+      "assets/icon.png",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "icon": "assets/icon.icns",
+      "category": "public.app-category.graphics-design",
+      "identity": null
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "assets/icon.png",
+      "category": "Graphics",
+      "maintainer": "CappySoft.pl",
+      "artifactName": "${productName}-${version}-Linux-${arch}.${ext}",
+      "synopsis": "Slicer do druku 3D FDM"
+    },
+    "copyright": "© 2026 CappySoft.pl",
+    "directories": {
+      "output": "release"
+    },
+    "publish": null,
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CappySlicer",
+      "artifactName": "${productName}-${version}-Windows-Setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-Windows-Portable.${ext}"
+    }
+  },
+  "devDependencies": {
+    "@electron/packager": "18.3.6",
+    "electron": "33.2.1",
+    "electron-builder": "25.1.8",
+    "three": "^0.147.0"
+  }
+}

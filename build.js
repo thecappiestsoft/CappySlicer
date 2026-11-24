@@ -1,6 +1,7 @@
 // Budowanie CappySlicer.
 //   node build.js            → dist/web/CappySlicer.html (samodzielny plik, działa offline)
 //                              + app/index.html (dla wersji desktop / Electron)
+//                              + index.html (GitHub Pages)
 //   node build.js --cdn      → dist/artifact.html (biblioteki z CDN, bez znaczników html/head/body)
 const fs = require("fs");
 const path = require("path");
@@ -35,7 +36,7 @@ if (cdn) {
   console.log("dist/artifact.html");
 } else {
   const full = `<!doctype html>\n<html lang="pl">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n${head}\n</head>\n<body>\n${body}\n${libs}\n${app}\n</body>\n</html>\n`;
-  for (const out of ["dist/web/CappySlicer.html", "app/index.html"]) {
+  for (const out of ["dist/web/CappySlicer.html", "app/index.html", "index.html"]) {
     fs.mkdirSync(path.dirname(path.join(__dirname, out)), {recursive: true});
     fs.writeFileSync(path.join(__dirname, out), full);
     console.log(out, (full.length / 1024).toFixed(0) + " KB");
